@@ -28,6 +28,18 @@ def get_documents(category):
     category_path = os.path.join(BASE_DIR, category)
     return sorted([doc for doc in os.listdir(category_path) if doc.endswith('.pdf')])
 
+def get_categories():
+    try:
+        return sorted(next(os.walk(BASE_DIR))[1])
+    except StopIteration:
+        st.error("Fout bij het openen van categorieën. Controleer of de map bestaat en niet leeg is.")
+        return []
+
+def get_documents(category):
+    category_path = os.path.join(BASE_DIR, category)
+    return sorted([doc for doc in os.listdir(category_path) if doc.endswith('.pdf')])
+
+
 def extract_text_from_pdf_by_page(file_path):
     pages_text = []
     with open(file_path, 'rb') as file:
