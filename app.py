@@ -104,7 +104,7 @@ def process_document(document_path, user_question):
     
 
 def main():
-    st.title("Pensioenbot - testversie 0.1.")
+    st.title("Pensioenbot - testversie 0.1.2.")
 
     # Get categories (clients) and allow user selection
     clients = get_categories()
