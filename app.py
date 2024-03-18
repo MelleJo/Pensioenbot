@@ -11,8 +11,6 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
-
-
 BASE_DIR = os.path.join(os.getcwd())
 
 def get_all_documents():
@@ -30,10 +28,13 @@ def get_documents(category):
 
 def get_categories():
     try:
-        return sorted(next(os.walk(BASE_DIR))[1])
+        # Update the path to target preloaded_docs folder
+        preloaded_docs_path = os.path.join(BASE_DIR, 'preloaded_docs')
+        return sorted(next(os.walk(preloaded_docs_path))[1])
     except StopIteration:
         st.error("Fout bij het openen van categorieën. Controleer of de map bestaat en niet leeg is.")
         return []
+
 
 def get_documents(category):
     category_path = os.path.join(BASE_DIR, category)
@@ -93,9 +94,15 @@ def process_document(document_path, user_question):
 
 def main():
     st.title("Pensioenbot - testversie 0.1.")
-    documents = get_documents('preloaded_docs')
+
+    # Get categories (clients) and allow user selection
+    clients = get_categories()
+    selected_client = st.selectbox("Kies een bedrijf:", clients)
+
+    # Update to fetch documents from the selected client folder
+    documents = get_documents(selected_client)
     selected_doc_title = st.selectbox("Kies een document:", documents)
-    selected_document_path = os.path.join(BASE_DIR, 'preloaded_docs', selected_doc_title)
+    selected_document_path = os.path.join(BASE_DIR, 'preloaded_docs', selected_client, selected_doc_title)
     
     with open(selected_document_path, "rb") as pdf_file:
         st.download_button(
@@ -105,18 +112,10 @@ def main():
             mime="application/pdf"
         )
 
-
-
-    
     user_question = st.text_input("Wat wil je graag weten?")
-
-
-
-
     if user_question:
-       answer = process_document(selected_document_path, user_question)
-       st.write(answer)
-    
+        answer = process_document(selected_document_path, user_question)
+        st.write(answer)
     
 if __name__ == "__main__":
     main()
