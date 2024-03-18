@@ -37,8 +37,14 @@ def get_categories():
 
 
 def get_documents(category):
-    category_path = os.path.join(BASE_DIR, category)
-    return sorted([doc for doc in os.listdir(category_path) if doc.endswith('.pdf')])
+    # Construct the correct path to the category within preloaded_docs
+    category_path = os.path.join(BASE_DIR, 'preloaded_docs', category)
+    try:
+        return sorted([doc for doc in os.listdir(category_path) if doc.endswith('.pdf')])
+    except FileNotFoundError:
+        st.error(f"Map niet gevonden: {category_path}. Controleer of de map bestaat.")
+        return []
+
 
 
 def extract_text_from_pdf_by_page(file_path):
