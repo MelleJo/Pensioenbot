@@ -1,0 +1,12 @@
+streamlit
+openai
+PyPDF2
+langchain_community
+langchain_openai
+langchain
+pinecone-client
+langchain_core
+redis
+langchain-pinecone
+sentence_transformers
+faiss-cpu
