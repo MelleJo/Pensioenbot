@@ -105,6 +105,7 @@ def process_document(document_path, user_question):
         llm = ChatOpenAI(api_key=st.secrets["OPENAI_API_KEY"], model="gpt-4-turbo-preview", temperature=0, streaming=True)
         chain = prompt | llm | StrOutputParser() 
         return chain.stream({
+            "base_info": base_info,
             "document_text": document_text,
             "user_question": user_question,
         })
