@@ -78,6 +78,7 @@ def process_document(document_path, user_question):
         Rond geen getallen af, deze geef je altijd precies.
         Wees extra accuraat op nummers, getallen, en specifieke details.
         Als het je antwoord sterker maakt, gebruik dan ook een directe quote.
+        Bij een vraag over percentages in opbouw et cetera, bereken het precieze getal en maak geen afrondingen. 
         Zorg ervoor dat je accurraat bent omdat het om juridische documenten gaat, dus wees daar heel scherp op.
         De gebruiker is een medewerker van de pensioenafdeling en zal dus vragen stellen die ofwel van de klant komenof intern. 
         Analyseer de vraag en geef duidelijke instructies als antwoord op de vraag, disclaimers en verdere informatie is niet nodig.
