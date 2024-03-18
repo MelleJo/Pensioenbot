@@ -71,10 +71,19 @@ def process_document(document_path, user_question):
         docs = knowledge_base.similarity_search(user_question)
         document_text = " ".join([doc.page_content for doc in docs])
 
+        base_info =  """
+        De definitie van onbepaald partnersysteem is als volgt: het partnerpensioen is verzekerd ongeacht of de deelnemer een partner heeft op het moment van overlijden. 
+        De definitie van bepaald partnersysteem is: Het partnerpensioen is alleen verzekerd als er wordt voldaan aan het partnerbegrip en er dus daadwerkelijk een partner is.
+        Een tabel met leeftijden is altijd een staffel, dus bijvoorbeeld 40-44, 45-49 et cetera. Dus als een leeftijd daar bij in zit dan moet je dat dus op die manier herleiden.
+
+
+        """
+
         template = """
         Je bent expert in pensioenen en in het analyeren van juridische documenten. Je hebt een diepe kennis van de documenten die zijn worden geselecteerd.
         De geuploade documenten zijn de pensioenafspraken van een specifieke klant, deze klant houden we anoniem, maar het is dus wel specifiek voor die klant.
         Je geeft concreet en duidelijk antwoord.
+        Gebruik de inhoud van {base_info}, dit is een constante voor elk soort document. Standaard kennis.  
         Rond geen getallen af, deze geef je altijd precies.
         Wees extra accuraat op nummers, getallen, en specifieke details.
         Als het je antwoord sterker maakt, gebruik dan ook een directe quote.
@@ -89,7 +98,7 @@ def process_document(document_path, user_question):
         Gegeven de tekst uit de documenten: '{document_text}', en de vraag van de gebruiker: '{user_question}', hoe zou je deze vraag beantwoorden met inachtneming van de bovenstaande instructies?
         """
         
-        prompt = ChatPromptTemplate.from_template(template)
+        prompt = ChatPromptTemplate.from_template(template) + base_info
 
         
         # Perform similarity search
@@ -105,7 +114,7 @@ def process_document(document_path, user_question):
     
 
 def main():
-    st.title("Pensioenbot - testversie 0.1.2.")
+    st.title("Pensioenbot - testversie 0.1.3.")
 
     # Get categories (clients) and allow user selection
     clients = get_categories()
